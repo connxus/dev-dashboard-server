@@ -72,21 +72,24 @@ router.get('/cxs-api', function(req, res) {
 });
 
 router.get('/weather', function(req, res) {
-    var weatherResults = weather.find({search: 'Mason, OH', degreeType: 'F'}, function(err, result) {
-      if (err) {
-        console.log(err);
-      }
-      result[0].current.type = 'weather';
-      res.json({ weather: result[0] });
-    });
+  var weatherResults = weather.find({search: 'Mason, OH', degreeType: 'F'}, function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    result[0].current.type = 'weather';
+    res.json({ weather: result[0] });
+  });
 });
 
 router.post('/llamaStream', function(req, res) {
-  if ( req.body.text ) {
+  if ( req.body.token && req.body.token === process.env.SLACKTOKEN ) {
+    // from slack
     io.emit('llama stream', {streamNumber: req.body.text});
   } else {
+    // from application
     io.emit('llama stream', {streamNumber: req.body.streamNumber});
   }
+
   res.json(req.body);
 });
 
