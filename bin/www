@@ -82,8 +82,11 @@ router.get('/weather', function(req, res) {
 });
 
 router.post('/llamaStream', function(req, res) {
-  console.log('Request body log', req.body);
-  io.emit('llama stream', {streamNumber: req.body.streamNumber});
+  if ( req.body.text ) {
+    io.emit('llama stream', {streamNumber: req.body.text});
+  } else {
+    io.emit('llama stream', {streamNumber: req.body.streamNumber});
+  }
   res.json(req.body);
 });
 
