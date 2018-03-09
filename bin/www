@@ -7,10 +7,12 @@
 var express    = require('express');        // call express
 var env        = require('dotenv').config();
 var app        = express();
+var server     = require('http').Server(app);
 var cors       = require('cors')                // define our app using express
 var bodyParser = require('body-parser');
 var weather    = require('weather-js');
 var ZenHub     = require('node-zenhub');
+var io         = require('socket.io')(server);
 
 var zenHubApi  = new ZenHub(process.env.ZENHUB);
 
@@ -30,11 +32,14 @@ var router = express.Router();              // get an instance of the express Ro
 router.get('/', function(req, res) {
     res.json({ message: 'hooray! welcome to our api!' });
 });
+
 router.get('/cxs-app', function(req, res) {
   zenHubApi.getBoard(26181696, function(err, result) {
     if (err) {
       console.log(err);
+      return;
     }
+
     let formattedResponse = result.map(function(response) {
       return {
         name: response.name,
@@ -47,6 +52,7 @@ router.get('/cxs-app', function(req, res) {
      });
   });
 });
+
 router.get('/cxs-api', function(req, res) {
   zenHubApi.getBoard(26181661, function(err, result) {
     if (err) {
@@ -64,6 +70,7 @@ router.get('/cxs-api', function(req, res) {
      });
   });
 });
+
 router.get('/weather', function(req, res) {
     var weatherResults = weather.find({search: 'Mason, OH', degreeType: 'F'}, function(err, result) {
       if (err) {
@@ -76,11 +83,22 @@ router.get('/weather', function(req, res) {
 
 // more routes for our API will happen here
 
+/**
+ * SOCKET IO Commands
+ */
+io.on('connection', function(socket) {
+  socket.emit('serverMessage', { message: 'Connected to socket server.' });
+});
+
+io.on('disconnect', function(socket) {
+  socket.emit('serverMessage', { message: 'Disconnected from socket server.' });
+});
+
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
 
 // START THE SERVER
 // =============================================================================
-app.listen(port);
+server.listen(port);
 console.log('Magic happens on port ' + port);
