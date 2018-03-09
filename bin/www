@@ -85,7 +85,7 @@ router.post('/llamaStream', function(req, res) {
   if ( req.body.token && req.body.token === process.env.SLACKTOKEN ) {
     // from slack
     io.emit('llama stream', {streamNumber: req.body.text});
-    io.emit('system message', {message: req.body.user_name + ' change the llaama feed to #' + req.body.text});
+    io.emit('system message', {message: req.body.user_name + ' change the llaama stream to #' + req.body.text});
   } else {
     // from application
     io.emit('llama stream', {streamNumber: req.body.streamNumber});
