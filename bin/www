@@ -81,17 +81,27 @@ router.get('/weather', function(req, res) {
     });
 });
 
+router.post('/llamaStream', function(req, res) {
+  console.log('Llama Stream change requested', req.body.streamNumber);
+  io.emit('llama stream', {streamNumber: req.body.streamNumber});
+  res.json(req.body);
+});
+
 // more routes for our API will happen here
 
 /**
  * SOCKET IO Commands
  */
 io.on('connection', function(socket) {
-  socket.emit('serverMessage', { message: 'Connected to socket server.' });
-});
+  var msg = 'New socket connection. ' + socket.id;
+  console.log(msg);
+  io.emit('system message', { message:  msg});
 
-io.on('disconnect', function(socket) {
-  socket.emit('serverMessage', { message: 'Disconnected from socket server.' });
+  socket.on('disconnect', function() {
+    var msg = 'Closed a socket connection.';
+    console.log(msg);
+    io.emit('system message', { message: msg });
+  });
 });
 
 // REGISTER OUR ROUTES -------------------------------
