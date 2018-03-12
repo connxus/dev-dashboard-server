@@ -88,11 +88,13 @@ router.post('/llamaStream', function(req, res) {
     if (req.body.text === 'help') {
       let message = `
       \`\`\`
-          /llama [integer 1 - 3] - Change llama stream
-          /llama cycle - Will cycle through streams
-          /llama freeze - Will stop on a certain stream
-          /llama youtube [url] - Will change llama stream into requested youtube video
-          /llama youtube stop - Will stop youtube video and return to llama stream
+===COMMANDS===
+
+/llama [integer 1 - 3] - Change llama stream
+/llama cycle - Will cycle through streams
+/llama freeze - Will stop on a certain stream
+/llama youtube [url] - Will change llama stream into requested youtube video
+/llama youtube stop - Will stop youtube video and return to llama stream
       \`\`\`
       `
       ;
