@@ -96,7 +96,7 @@ router.post('/llamaStream', function(req, res) {
       \`\`\`
       `;
 
-      request.post(req.body.responseUrl, {json: true, body: {text: message}}, (err, res) => {
+      request({method: 'POST', url: req.body.responseUrl, json: true, body: {text: message}}, (err, res) => {
         if (err) {
           console.log(err);
         }
