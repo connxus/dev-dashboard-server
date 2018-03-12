@@ -96,9 +96,9 @@ router.post('/llamaStream', function(req, res) {
       \`\`\`
       `
       ;
-      console.log('Response Url for slack', req.body.responseUrl);
+      console.log('Response Url for slack', req.body.response_url);
 
-      request({method: 'POST', uri: req.body.responseUrl, json: true, body: {text: message}}, (err, res) => {
+      request({method: 'POST', uri: req.body.response_url, json: true, body: {text: message}}, (err, res) => {
         if (err) {
           console.log(err);
         }
