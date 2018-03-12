@@ -84,11 +84,11 @@ router.get('/weather', function(req, res) {
 router.post('/llamaStream', function(req, res) {
   if ( req.body.token && req.body.token === process.env.SLACKTOKEN ) {
     // from slack
-    io.emit('llama stream', {streamNumber: req.body.text});
+    io.emit('llama stream', {arg: req.body.text});
     io.emit('system message', {message: req.body.user_name + ' change the llaama stream to #' + req.body.text});
   } else {
     // from application
-    io.emit('llama stream', {streamNumber: req.body.streamNumber});
+    io.emit('llama stream', {arg: req.body.arg});
   }
 
   res.json(req.body);
