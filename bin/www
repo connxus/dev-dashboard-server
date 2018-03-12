@@ -94,9 +94,11 @@ router.post('/llamaStream', function(req, res) {
           /llama youtube [url] - Will change llama stream into requested youtube video
           /llama youtube stop - Will stop youtube video and return to llama stream
       \`\`\`
-      `;
+      `
+      ;
+      console.log('Response Url for slack', req.body.responseUrl);
 
-      request({method: 'POST', url: req.body.responseUrl, json: true, body: {text: message}}, (err, res) => {
+      request({method: 'POST', uri: req.body.responseUrl, json: true, body: {text: message}}, (err, res) => {
         if (err) {
           console.log(err);
         }
