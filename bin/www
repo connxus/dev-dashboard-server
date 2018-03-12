@@ -5,6 +5,7 @@
 
 // call the packages we need
 var express    = require('express');        // call express
+var request    = require('request');
 var env        = require('dotenv').config();
 var app        = express();
 var server     = require('http').Server(app);
@@ -84,8 +85,26 @@ router.get('/weather', function(req, res) {
 router.post('/llamaStream', function(req, res) {
   if ( req.body.token && req.body.token === process.env.SLACKTOKEN ) {
     // from slack
-    io.emit('llama stream', {arg: req.body.text});
-    io.emit('system message', {message: req.body.user_name + ' change the llaama stream to #' + req.body.text});
+    if (req,body.text === 'help') {
+      let message = `
+      \`\`\`
+          /llama [integer 1 - 3] - Change llama stream
+          /llama cycle - Will cycle through streams
+          /llama freeze - Will stop on a certain stream
+          /llama youtube [url] - Will change llama stream into requested youtube video
+          /llama youtube stop - Will stop youtube video and return to llama stream
+      \`\`\`
+      `;
+
+      request.post(req.body.responseUrl, {json: true, body: {text: message}}, (err, res) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    } else {
+      io.emit('llama stream', {arg: req.body.text});
+      io.emit('system message', {message: req.body.user_name + ' change the llaama stream to #' + req.body.text});
+    }
   } else {
     // from application
     io.emit('llama stream', {arg: req.body.arg});
