@@ -78,7 +78,8 @@ router.get('/weather', function(req, res) {
       console.log(err);
     }
     result[0].current.type = 'weather';
-    res.json({ weather: result[0] });
+    
+    res.json({ weather: result });
   });
 });
 
@@ -93,8 +94,12 @@ router.post('/llamaStream', function(req, res) {
 /llama [integer 1 - 3] - Change llama stream
 /llama cycle - Will cycle through streams
 /llama freeze - Will stop on a certain stream
-/llama youtube [url] - Will change llama stream into requested youtube video
+/llama youtube [url] [optional (full or sound)] - Will change llama stream into requested youtube video
 /llama youtube stop - Will stop youtube video and return to llama stream
+/llama youtube full - Fullscreens stream
+/llama youtube mini - Shrinks stream if fullscreen
+/llama youtube sound - Turns ON Audio for current youtube video
+/llama youtube mute - Turns OFF Audio for current youtube video
       \`\`\`
       `
       ;
