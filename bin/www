@@ -38,7 +38,7 @@ router.get('/cxs-app', function(req, res) {
   zenHubApi.getBoard(26181696, function(err, result) {
     if (err) {
       console.log(err);
-      return;
+      return err;
     }
 
     let formattedResponse = result.map(function(response) {
@@ -58,6 +58,7 @@ router.get('/cxs-api', function(req, res) {
   zenHubApi.getBoard(26181661, function(err, result) {
     if (err) {
       console.log(err);
+      return err;
     }
     let formattedResponse = result.map(function(response) {
       return {
@@ -76,6 +77,7 @@ router.get('/weather', function(req, res) {
   var weatherResults = weather.find({search: 'Mason, OH', degreeType: 'F'}, function(err, result) {
     if (err) {
       console.log(err);
+      return err;
     }
     result[0].current.type = 'weather';
     
