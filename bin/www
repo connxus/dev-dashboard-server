@@ -41,14 +41,15 @@ router.get('/cxs-app', function(req, res) {
       return err;
     }
 
-    let formattedResponse = result.map(function(response, index, array) {
-      if (array.length() >= index) {
-        return {
-          name: response.name,
-          issueLength: response.issues.length
-        }
+    let formattedResponse = result.map(function(response) {
+      return {
+        name: response.name,
+        issueLength: response.issues.length
       }
-    });
+    })
+
+    formattedResponse.pop();
+
     res.json({
       title: "Application Repo",
       data: formattedResponse
@@ -62,14 +63,15 @@ router.get('/cxs-api', function(req, res) {
       console.log(err);
       return err;
     }
-    let formattedResponse = result.map(function(response, index, array) {
-      if (array.length() >= index) {
-        return {
-          name: response.name,
-          issueLength: response.issues.length
-        }
+    let formattedResponse = result.map(function(response) {
+      return {
+        name: response.name,
+        issueLength: response.issues.length
       }
-    });
+    })
+
+    formattedResponse.pop();
+
     res.json({
       title: "API Repo",
       data: formattedResponse
