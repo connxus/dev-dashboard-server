@@ -46,7 +46,7 @@ router.get('/cxs-app', function(req, res) {
         name: response.name,
         issueLength: response.issues.length
       }
-    })
+    }).pop();
     res.json({
       title: "Application Repo",
       data: formattedResponse
@@ -65,7 +65,7 @@ router.get('/cxs-api', function(req, res) {
         name: response.name,
         issueLength: response.issues.length
       }
-    })
+    }).pop();
     res.json({
       title: "API Repo",
       data: formattedResponse
