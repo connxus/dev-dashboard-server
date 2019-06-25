@@ -14,8 +14,15 @@ var bodyParser = require('body-parser');
 var weather    = require('weather-js');
 var ZenHub     = require('node-zenhub');
 var io         = require('socket.io')(server);
+const basicAuth = require('express-basic-auth')
 
 var zenHubApi  = new ZenHub(process.env.ZENHUB);
+var user = process.env.user;
+var password = process.env.password
+
+app.use(basicAuth({
+  users: { user: password }
+}))
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -102,6 +109,10 @@ router.post('/llamaStream', function(req, res) {
 /llama [integer 1 - 3] - Change llama stream
 /llama cycle - Will cycle through streams
 /llama freeze - Will stop on a certain stream
+/llama stop - Will stop streams
+/llama fullscreen - Will fullscreen streams
+/llama mini - Will shrink streams
+/llama twitch [twitch channel name] [optional (full)] - Will change llama stream into twitch stream
 /llama youtube [url] [optional (full or sound)] - Will change llama stream into requested youtube video
 /llama youtube stop - Will stop youtube video and return to llama stream
 /llama youtube full - Fullscreens stream
