@@ -17,6 +17,7 @@
     "morgan": "~1.9.0",
     "node-zenhub": "^0.2.3",
     "process-env": "^1.1.0",
+    "random-dilbert": "^1.1.0",
     "serve-favicon": "~2.4.5",
     "socket.io": "^2.0.4",
     "weather-js": "^2.0.0"

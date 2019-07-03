@@ -14,6 +14,7 @@ var bodyParser = require('body-parser');
 var weather    = require('weather-js');
 var ZenHub     = require('node-zenhub');
 var io         = require('socket.io')(server);
+var dilbert    = require('random-dilbert');
 
 var zenHubApi  = new ZenHub(process.env.ZENHUB);
 
@@ -122,6 +123,16 @@ router.post('/llamaStream', function(req, res) {
           console.log(err);
         }
       });
+    } else if ('dibert') {
+      dilbert(function(err, data) {
+        if (data) {
+          request({method: 'POST', uri: req.body.response_url, json: true, body: {text: data.url}}, (err, res) => {
+            if (err) {
+              console.log(err);
+            }
+          });
+        }
+      })
     } else {
       io.emit('llama stream', {arg: req.body.text});
       io.emit('system message', {message: req.body.user_name + ' change the llaama stream to #' + req.body.text});
