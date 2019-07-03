@@ -15,7 +15,6 @@ var weather    = require('weather-js');
 var ZenHub     = require('node-zenhub');
 var io         = require('socket.io')(server);
 var dilbert    = require('random-dilbert');
-var dadJokes    = require('dad-jokes');
 
 var zenHubApi  = new ZenHub(process.env.ZENHUB);
 
@@ -135,12 +134,6 @@ router.post('/llamaStream', function(req, res) {
           });
         }
       })
-    } else if ('joke') {
-      request({method: 'POST', uri: req.body.response_url, json: true, body: {response_type: "in_channel", text: dadJokes.random()}}, (err, res) => {
-        if (err) {
-          console.log(err);
-        }
-      });
     } else {
       io.emit('llama stream', {arg: req.body.text});
       io.emit('system message', {message: req.body.user_name + ' change the llaama stream to #' + req.body.text});
