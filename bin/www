@@ -126,6 +126,7 @@ router.post('/llamaStream', function(req, res) {
     } else if ('dilbert') {
       dilbert(function(err, data) {
         if (data) {
+          console.log(req.body.response_url);
           request({method: 'POST', uri: req.body.response_url, json: true, body: {text: `https:${data.url}`}}, (err, res) => {
             if (err) {
               console.log(err);
