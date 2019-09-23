@@ -80,6 +80,15 @@ router.get('/cxs-api', function(req, res) {
   });
 });
 
+router.post('/gitCommit', function(req, res) {
+  if (req.body) {
+    io.emit('git commit', {arg: req.body});
+    res.json(req.body);
+  }
+}, (err) => {
+  console.log(err);
+});
+
 router.get('/weather', function(req, res) {
   var weatherResults = weather.find({search: 'Mason, OH', degreeType: 'F'}, function(err, result) {
     if (err) {
